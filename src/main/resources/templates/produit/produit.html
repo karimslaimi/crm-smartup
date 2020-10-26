@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org"
+xmlns:layout="http://www.ultraq.nz/thymeleaf/layout"
+layout:decorate="layout"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="utf-8">
+<title>Produits</title>
+
+</head>
+<body>
+<div layout:fragment="content1">
+<div class="container">
+	 	<div class="col-md-15">
+			<div class="card">
+			
+					<div class="card-header">Liste produits</div>
+		
+				<div class="row">
+			<div class="col-md-5 pr-1">
+			<form th:action="@{/admin/produit}" method="get">
+			<label>Mot clé:</label>
+			<input type="text" name="motCle" th:value="${motCle}">
+			<button type="submit" class="btn btn-primary">chercher</button>
+			
+			</form>
+			</div>
+			<div class="col-md-5 pr-1 ">
+			<a href="/admin/formProduit"><button class="btn btn-primary  pull-right" type="button" >Ajouter un Produit</button></a>
+			</div>
+			
+			
+			
+			</div>
+			
+			
+			<div class="card-body">
+				<table class="table">
+					<tr>
+					<th>numéro produit</th>
+						<th>designation</th>
+				
+					</tr>
+					
+					
+				
+					<tr  th:unless="${#lists.isEmpty(listProduits)}" th:each="p:${listProduits}">
+						<td th:text="${p.id}"></td>
+						<td th:text="${p.designation}"></td>
+												
+						<td> 
+						<a  class="btn btn-danger" onclick="return confirm('etes vous sur ?')" th:href="@{/admin/deleteP(id=${p.id},page=${currentPage},motCle=${motCle})}"> Delete</a>
+						</td>
+						<td> 
+						<a  class="btn btn-info" th:href="@{/admin/editP(id=${p.id})}"> Edit</a>		
+						</td>
+						
+					</tr>
+				
+				
+				
+			
+				
+				
+				
+				
+				</table>  
+	
+		
+		<nav aria-label="...">
+  <ul class="pagination">
+   
+    <li class="" th:classappend="${currentPage==status.index}?'active':''" th:each="page,status:${pages}">
+    
+    
+    
+    <a th:href="@{/admin/produit(page=${status.index},motCle=${motCle})}"  th:text="${status.index}"></a></li>
+    
+  </ul>
+</nav>
+		
+	
+			</div>
+			
+		</div>
+	</div>
+	
+		
+
+
+
+</div>
+			
+</div>
+</body>
+</html>

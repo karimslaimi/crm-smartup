@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org"
+	xmlns:layout="http://www.ultraq.nz/thymeleaf/layout"
+	layout:decorate="layout" sin>
+<head>
+<meta charset="utf-8">
+<title>Saisie d'une Intervention</title>
+</head>
+<body>
+
+	<div layout:fragment="content1" class="row">
+		<div class="col-md-10">
+			<div class="card">
+
+				<div class="card-header">
+					<h5 class="title">Nouveau Intervention</h5>
+				</div>
+				<div class="card-body">
+					<form th:action="@{/admin/savei}" th:method="POST">
+
+						
+
+
+						
+						<div class="form-group">
+
+
+							<label class="control-label">DateInt</label> 
+							<input name="dateInt"
+								class="form-control" type="date" 
+								th:value="${intervention.dateInt}"> <span
+								th:errors="${intervention.dateInt}" class="text-danger"></span>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label">Localisation</label> 
+							<input name="localisation"
+								class="form-control" type="text" 
+								th:value="${intervention.localisation}"> <span
+								th:errors="${intervention.localisation}" class="text-danger"></span>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Detaille</label> 
+							<textarea  name="Detaille"
+								class="form-control" type="text" 
+								th:value="${intervention.detaille}"></textarea > <span
+								th:errors="${intervention.detaille}" class="text-danger"></span>
+						</div>
+
+							<div class="form-group">
+							<label class="control-label">Technicien</label> 
+							 <select  class="form-control" required="required" 
+						       th:value="${intervention.technicien}" name="technicien" id="technicien">
+						      <option disabled="disabled" selected="selected" > -- 
+						      selectionner technicien
+						      </option>
+						      <option th:each="tech : ${techs}" th:value="${tech.id}" 
+						       th:text="${tech.nom} " >
+						      </option>
+						    </select>
+										
+							</div>
+
+						
+						<button type="submit" class="btn btn-primary">save</button>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org"
+xmlns:layout="http://www.ultraq.nz/thymeleaf/layout"
+layout:decorate="layout"sin>
+<head>
+<meta charset="utf-8">
+<title>Saisie d'un client</title>
+</head>
+<body>
+ 
+<div layout:fragment="content1">
+<div class="col-md-6">
+<div class="panel panel-default">
+<div class="container">
+<div class="panel-heading"> nouveau client</div>
+<div class="panel-body">
+<form th:action="@{/admin/save}" method="post">
+<div class="form-group">
+<label class="control-label">Id:</label> <label th:text="${client.id}"></label>
+<input class="form-control" type="hidden" name="id" th:value="${client.id}">
+</div>
+
+<div class="form-group">
+<label class="control-label">sexe</label>
+<input class="form-control" type="text" name="sexe" th:value="${client.sexe}">
+<span th:errors="${client.sexe}" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label class="control-label">nom</label>
+<input class="form-control" type="text" name="nom" th:value="${client.nom}">
+<span th:errors="${client.nom}" class="text-danger"></span>
+</div><div class="form-group">
+<label class="control-label">prenom</label>
+<input class="form-control" type="text" name="prenom" th:value="${client.prenom}">
+<span th:errors="${client.prenom}" class="text-danger"></span>
+</div><div class="form-group">
+<label class="control-label">cin</label>
+<input class="form-control" type="text" name="cin" th:value="${client.cin}">
+<span th:errors="${client.cin}" class="text-danger"></span>
+</div><div class="form-group">
+<label class="control-label">date de naissance</label>
+<input class="form-control" type="date" name="daten" th:value="${client.dateN}">
+<span th:errors="${client.dateN}" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label class="control-label">adresse</label>
+<input class="form-control" type="text" name="adresse" th:value="${client.adresse}">
+<span th:errors="${client.adresse}" class="text-danger" ></span>
+</div>
+<div class="form-group">
+<label class="control-label">mobile</label>
+<input class="form-control" type="text" name="mobile" th:value="${client.mobile}">
+<span th:errors="${client.mobile}" ></span>
+</div>
+<div class="form-group">
+<label class="control-label">mail</label>
+<input class="form-control" type="text" name="mail" th:value="${client.mail}">
+<span th:errors="${client.mail}" class="text-danger"></span>
+</div>
+<button type="submit" class="btn btn-primary" >save</button>
+</form>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</body>
+</html>

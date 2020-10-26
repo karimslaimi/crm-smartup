@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org"
+xmlns:layout="http://www.ultraq.nz/thymeleaf/layout"
+layout:decorate="layoutC"sin>
+<head>
+<meta charset="utf-8">
+<title>Saisie d'une reclamation</title>
+</head>
+<body>
+ 
+<div layout:fragment="content1" class="row">
+	<div class="col-md-12">
+			<div class="card">
+			
+		<div class="card-header">
+		<h5 class="title"> nouvelle reclamation</h5>
+		</div>
+		
+		
+		
+<div class="card-body">
+
+<form th:action="@{/client/savereclam}" method="post">
+<div class="form-group">
+<input class="form-control" type="hidden" name="idR" th:value="${reclamation.idR}">
+<input class="form-control" type="hidden" name="idc" th:value="${reclamation.Client.id}">
+</div>
+<div class="row">
+<div class="form-group  col-md-3 pr-1">
+<label class="control-label">Fixe</label>
+<input class="form-control" type="text" name="Fixe" th:value="${reclamation.Fixe}">
+<span th:errors="${reclamation.Fixe}" class="text-danger"></span>
+</div>
+
+<div class="form-group col-md-3 pr-1">
+<label class="control-label">adresse</label>
+<input class="form-control" type="text" name="addresse" th:value="${reclamation.addresse}">
+<span th:errors="${reclamation.addresse}" class="text-danger"></span>
+</div>
+</div>
+
+<div class="row">
+<div class="form-group col-md-3 pr-1">
+<label class="control-label">Code Postal</label>
+<input class="form-control" type="text" name="codeP" th:value="${reclamation.codeP}">
+<span th:errors="${reclamation.codeP}" class="text-danger"></span>
+</div>
+
+<div class="form-group col-md-3 pr-1">
+<label class="control-label">Type de reclamation</label>
+<input class="form-control" type="text" name="typeR" th:value="${reclamation.typeR}">
+<span th:errors="${reclamation.typeR}" class="text-danger" ></span>
+</div>
+
+
+</div>
+<div class="form-group">
+<label class="control-label">explication de la  reclamation</label>
+<textarea class="form-control"  name="explication" th:field="${reclamation.explication}" th:value="${reclamation.explication}"></textarea>
+<span th:errors="${reclamation.explication}" ></span>
+</div>
+<button type="submit" class="btn btn-primary" >modifier</button>
+</form>
+
+
+
+
+</div>
+</div>
+
+</div>
+</div>
+
+</body>
+</html>

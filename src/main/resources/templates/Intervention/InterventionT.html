@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org"
+	xmlns:layout="http://www.ultraq.nz/thymeleaf/layout"
+	layout:decorate="layoutT">
+<head>
+<meta charset="utf-8">
+<title>Technicien</title>
+
+</head>
+<body>
+	<div layout:fragment="content1" class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="title">Mes Interventions</h5>
+				</div>
+				<div>
+					<form th:action="@{/techicien/interventionT}" method="get">
+						<label>Mot clé:</label> <input type="text" name="motCle"
+							th:value="${motCle}">
+						<button type="submit" class="btn btn-primary">chercher</button>
+					</form>
+				</div>
+
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table">
+							<thead class="text-primary">
+								<th>IDInt</th>
+
+
+
+								<th>dateInt</th>
+								<th>localistaion</th>
+								<th>Detailles</th>
+
+
+							</thead>
+							<tbody>
+								<tr th:unless="${#lists.isEmpty(listIntervention)}"
+									th:each="i:${listIntervention}">
+									<td th:text="${i.idInt}"></td>
+
+									<td th:text="${i.dateInt}"></td>
+									<td th:text="${i.localisation}"></td>
+									<td th:text="${i.detaille}"></td>
+
+
+
+
+									<td><a class="btn btn-danger"
+										onclick="return confirm('etes vous sur ?')"
+										th:href="@{/technicien/deletei(id=${i.idInt},page=${currentPage},motCle=${motCle})}">
+											Delete</a></td>
+
+
+								</tr>
+							</tbody>
+						</table>
+						<nav aria-label="...">
+							<ul class="pagination">
+
+								<li class=""
+									th:classappend="${currentPage==status.index}?'active':''"
+									th:each="page,status:${pages}"><a
+									th:href="@{/technicien/interventionT(page=${status.index},motCle=${motCle})}"
+									th:text="${status.index}"></a></li>
+
+							</ul>
+						</nav>
+
+
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+		</div>
+</body>
+</html>

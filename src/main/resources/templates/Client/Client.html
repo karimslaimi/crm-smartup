@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html
+xmlns:layout="http://www.ultraq.nz/thymeleaf/layout"
+layout:decorate="layout"xmlns:th="http://www.thymeLeaf.org"
+>
+<head>
+<meta charset="utf-8">
+<title>client</title>
+<
+</head>
+<body>
+<div layout:fragment="content1" class="row">
+<div class="col-md-12">
+	 	<div class="card">
+			<div class="card-header"><h5 class="title">Liste des Clients</h5></div>
+			<div class="row">
+			<div class="col-md-5 pr-1">
+			<form th:action="@{/user/index}" method="get">
+			<label>Mot clé:</label>
+			<input type="text" name="motCle" th:value="${motCle}">
+			<button type="submit" class="btn btn-primary">chercher</button>
+			
+			</form>
+			
+			</div >
+			<div class="col-md-5 pr-1 ">
+			<a href="/admin/FormClient"><button class="btn btn-primary  pull-right" type="button" >Ajouter un client</button></a>
+			</div>
+			
+			
+			</div>
+			<div class="card-body">
+			<div class="table-responsive">
+				<table class="table">
+					<thead class="text-primary">
+						
+						<th >nom</th>
+						<th >prenom</th>
+												<th >CIN</th>
+												<th >date de naissance </th>
+												<th >adresse</th>
+										<th >mobile</th>
+																<th >mail</th>
+																<th>
+																Action
+																</th>
+										
+						
+					</thead>
+					<tbody>
+					<tr th:each="c:${listClient}">
+						<td th:text="${c.id}"></td>
+											
+												<td th:text="${c.nom}"></td>
+												<td th:text="${c.prenom}"></td>
+												<td th:text="${c.cin}"></td>
+												<td th:text="${#dates.format(c.dateN, 'dd-MMM-yyyy')}"></td>
+						
+						<td th:text="${c.adresse}"></td>
+						<td th:text="${c.mobile}"></td>
+						<td th:text="${c.mail}"></td>
+						<td><a  class="btn btn-primary" th:href="@{/admin/sesreclam(id=${c.id})}"> Reclamations</a>
+						
+						
+						<a  class="btn btn-danger" onclick="return confirm('etes vous sur ?')" th:href="@{/admin/delete(id=${c.id},page=${currentPage},motCle=${motCle})}"> Delete</a>
+						</td>
+						
+						
+					</tr>
+					</tbody>
+				</table> 
+				</div> 
+					<div>
+				<ul class="nav nav-pills">
+    <li th:class="${currentPage==status.index}?'active':''" th:each="page,status:${pages}">
+				<a th:href="@{/user/index(page=${status.index},motCle=${motCle})}"  th:text="${status.index}"></a>
+   		 </li>
+		</ul>
+			</div>
+				
+				
+			</div>
+		</div>
+	</div>
+	
+		
+
+
+
+</div>
+			
+
+</body>
+</html>

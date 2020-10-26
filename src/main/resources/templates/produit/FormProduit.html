@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html 	
+xmlns:layout="http://www.ultraq.nz/thymeleaf/layout"
+layout:decorate="layout"sin >
+<head>
+<meta charset="utf-8">
+<title>Saisie d'un client</title>
+</head>
+<body>
+
+	<div layout:fragment="content1" class="row">
+		<div class="col-md-10">
+			<div class="card">
+			
+					<div class="card-header"><h5 class="title">nouveau Produit</h5></div>
+					<div class="card-body">
+					 
+				 <form th:action="@{/admin/saveP}" th:method="post">
+				 
+				 
+							<div class="form-group">
+								<label class="control-label">Désignation</label>
+								 <input class="form-control" type="text" name="designation" th:value="${produit.designation}"/> 
+								 <span th:errors="${produit.designation}" class="text-danger"></span>
+							</div>
+							
+						
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							<button type="submit" class="btn btn-primary">save</button>
+						</form>
+					
+					
+					
+					
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	
+	
+	
+</body>
+</html>

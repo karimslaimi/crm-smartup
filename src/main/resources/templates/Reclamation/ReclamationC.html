@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org"
+xmlns:layout="http://www.ultraq.nz/thymeleaf/layout"
+layout:decorate="layoutC"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="utf-8">
+<title>Reclamations</title>
+
+</head>
+<body>
+<div layout:fragment="content1">
+<div class="container">
+	 	<div class="col-md-15">
+			<div class="card">
+			
+					<div class="card-header">Mes reclamations</div>
+			<div >
+			
+			
+			<form th:action="@{/client/reclamationC}" method="get">
+			<label>Mot clé:</label>
+			<input type="text" name="motCle" th:value="${motCle}">
+			<button type="submit" class="btn btn-primary">chercher</button>
+			</form>
+			
+			</div>
+			
+			
+			
+			<div class="card-body">
+				<table class="table">
+					<tr>
+						<th >IDR</th>
+						<th >Fixe</th>
+						<th >adresse</th>
+						<th >code Postal</th>
+						<th >type reclamaion</th>
+						<th >explication</th>
+				
+					</tr>
+					
+					
+				
+					<tr  th:unless="${#lists.isEmpty(listReclamation)}" th:each="r:${listReclamation}">
+						<td th:text="${r.idR}"></td>
+						<td th:text="${r.Fixe}"></td>
+						<td th:text="${r.addresse}"></td>
+						<td th:text="${r.codeP}"></td>
+						<td th:text="${r.typeR}"></td>
+						<td th:text="${r.explication}"></td>
+						
+						<td> 
+						<a  class="btn btn-danger" onclick="return confirm('etes vous sur ?')" th:href="@{/client/deleter(id=${r.idR},page=${currentPage},motCle=${motCle})}"> Delete</a>
+						</td>
+						<td> 
+						<a  class="btn btn-info" th:href="@{/client/editr(id=${r.idR})}"> Edit</a>		
+						</td>
+						
+					</tr>
+				
+				
+				
+			
+				
+				
+				
+				
+				</table>  
+	
+		
+		<nav aria-label="...">
+  <ul class="pagination">
+   
+    <li class="" th:classappend="${currentPage==status.index}?'active':''" th:each="page,status:${pages}">
+    
+    
+    
+    <a th:href="@{/client/reclamationC(page=${status.index},motCle=${motCle})}"  th:text="${status.index}"></a></li>
+    
+  </ul>
+</nav>
+		
+	
+			</div>
+			
+		</div>
+	</div>
+	
+		
+
+
+
+</div>
+			
+</div>
+</body>
+</html>

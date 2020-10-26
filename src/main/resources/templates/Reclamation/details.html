@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org"
+	xmlns:layout="http://www.ultraq.nz/thymeleaf/layout"
+	layout:decorate="layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="utf-8">
+<title>Reclamations</title>
+<script src="https://code.jquery.com/jquery-3.4.1.js"
+	integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+	crossorigin="anonymous" type="text/javascript"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"
+	type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		//your code here
+		$('.datetimepicker').datetimepicker({
+			icons : {
+				time : "fa fa-clock-o",
+				date : "fa fa-calendar",
+				up : "fa fa-chevron-up",
+				down : "fa fa-chevron-down",
+				previous : 'fa fa-chevron-left',
+				next : 'fa fa-chevron-right',
+				today : 'fa fa-screenshot',
+				clear : 'fa fa-trash',
+				close : 'fa fa-remove'
+			}
+		});
+	});
+</script>
+</head>
+<body>
+	<div layout:fragment="content1">
+		<div class="container">
+
+			<div class="col-md-10">
+				<div class="card card-user">
+					<div class="image">
+						<img src="../assets/img/bg5.jpg" alt="...">
+					</div>
+					<div class="card-body">
+						<div class="author">
+							<a href="#"> <img class="avatar border-gray"
+								src="../assets/img/mike.jpg" alt="...">
+								<h5 class="title"
+									th:text="${reclamation.client.nom}+' '+ ${reclamation.client.prenom}"></h5>
+							</a>
+							<p class="description" th:text="|Type:${reclamation.typeR}">
+
+							</p>
+							<p class="description" th:text="|Num. Fixe:${reclamation.Fixe}">
+
+							</p>
+						</div>
+						<p class="description text-center"
+							th:text="|Explication:${reclamation.explication}"></p>
+						<p class="description text-center"
+							th:text="|Addresse:${reclamation.addresse} ${reclamation.codeP}">
+
+						</p>
+					</div>
+					<hr>
+
+					<form th:action="@{/admin/savei}" th:method="POST" class="col-md-4"
+						action="">
+
+
+						<div class="form-group">
+							<label class="control-label">Technicien</label> <select
+								class="form-control" required="required"
+								th:value="${intervention.technicien}" name="technicien"
+								id="technicien">
+								<option disabled="disabled" selected="selected">--
+									selectionner technicien</option>
+								<option th:each="tech : ${techs}" th:value="${tech.id}"
+									th:text="${tech.nom} "></option>
+							</select>
+
+						</div>
+
+
+						<input type="hidden" name="id"
+							th:value="${intervention.reclamation.idR}">
+						<div class="form-group">
+							<label class="control-label">Detaille</label>
+							<textarea placeholder="Plus de détaille" name="Detaille"
+								class="form-control" type="text"
+								th:value="${intervention.detaille}"></textarea>
+							<span th:errors="${intervention.detaille}" class="text-danger"></span>
+						</div>
+
+						<div class="form-group">
+							<label class="label-control">Datetime Picker</label> <input
+								type="date" class="form-control datetimepicker"
+								th:value="${intervention.dateInt}" name="dateInt" id="dateInt" />
+						</div>
+
+
+
+						<button type="submit" class="btn btn-primary">save</button>
+
+
+
+
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+	<div></div>
+</body>
+
+</html>
