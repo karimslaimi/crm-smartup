@@ -13,15 +13,15 @@ import org.springframework.data.repository.query.Param;
 public interface ClientRepository extends JpaRepository<Client,Long> {
 	
 	@Query("select c from Client c where (c.nom like:x)")
-	public Page<Client> findByDesignationContains(@Param("x")String mc, Pageable pageable);
+    Page<Client> findByDesignationContains(@Param("x") String mc, Pageable pageable);
 	
 	@Query("select c from Client c where (c.username like:x)")
-	public Client ChercherClientusername(@Param("x")String username);
+    Client ChercherClientusername(@Param("x") String username);
 	
 	@Query("select c from Client c where (c.mail like:x)")
-	public Client findbymail(@Param("x")String mail);
+    Client findbymail(@Param("x") String mail);
 	
 	@Query("select c from Client c where (c.cin like:x OR c.mobile like:y OR c.username like:z)")
-	public List<Client> test(@Param("x")String cin,@Param("y")String mobile,@Param("z")String username);
+    List<Client> test(@Param("x") String cin, @Param("y") String mobile, @Param("z") String username);
 	
 }

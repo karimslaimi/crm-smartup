@@ -17,8 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Date;
 
 @Controller
 public class ReclamationController {
@@ -103,6 +106,7 @@ public class ReclamationController {
 		 		    
 			Client cl=CRepo.ChercherClientusername(username);			
 		reclamation.setClient(cl);
+		reclamation.setDate(new Date());
 		
 		RRepository.save(reclamation) ; 
 		return "redirect:/client/reclamationC" ; 
@@ -143,7 +147,7 @@ Reclamation reclamation=RRepository.findById(id).get();
 	}
 	
 	@PostMapping("/client/savereclam")
-	public String editreclam(Model model,@Valid Reclamation reclamation ,BindingResult bindingResult,Long idc) {
+	public String editreclam(Model model,@Valid Reclamation reclamation ,BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("reclamation",reclamation);
 			return "/Reclamation/EditReclamation";
@@ -156,7 +160,9 @@ Reclamation reclamation=RRepository.findById(id).get();
 
 		if(reclamation.getClient()==null)
 			reclamation.setClient(rec.getClient());
-		
+		if(reclamation.getTitre().isEmpty()){
+			reclamation.setTitre(rec.getTitre());
+		}
 
 			
 			

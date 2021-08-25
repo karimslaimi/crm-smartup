@@ -9,6 +9,7 @@ import org.sid.dao.ClientRepository;
 import org.sid.dao.ReclamationRepository;
 import org.sid.entities.Client;
 import org.sid.entities.Reclamation;
+import org.sid.entities.technicien;
 import org.sid.entities.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -193,12 +194,13 @@ public class ClientController {
 		
 		@RequestMapping(value="/Client/saveProfile",method=RequestMethod.POST)
 		public String editProfile(Model model,@Valid Client client , BindingResult bindingResult,RedirectAttributes redirectAttrs) {
-			
-			
-		
+
+
+			boolean flag= client.getPassword().isEmpty();
+
 			redirectAttrs.addAttribute("flag", "done");
 			
-			if(bindingResult.hasErrors() ||!CRepository.test(client.getCin(), client.getMobile(),client.getUsername()).isEmpty()) {
+			if((bindingResult.hasErrors() ||!CRepository.test(client.getCin(), client.getMobile(),client.getUsername()).isEmpty() ) && !flag ) {
 				redirectAttrs.addAttribute("flag", "error");
 				return"redirect:/Client/EditProfile" ;
 			}

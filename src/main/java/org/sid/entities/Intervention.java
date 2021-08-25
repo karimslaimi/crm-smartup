@@ -33,7 +33,6 @@ public class Intervention  implements Serializable{
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateInt ;
 
-	@NotBlank(message="Ne doit pas etre vide")
 	private String status ;
 
 	@NotBlank(message="Ne doit pas etre vide")

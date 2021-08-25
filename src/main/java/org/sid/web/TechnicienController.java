@@ -68,12 +68,13 @@ public class TechnicienController {
 		
 		@RequestMapping(value="/admin/saveedit",method = RequestMethod.POST)
 		public String saveedit (Model model ,@Valid @ModelAttribute("technicien") technicien tech  , BindingResult bindingResult) {
-			 
-			
-			if(bindingResult.hasErrors()) {
+
+		 boolean flag= tech.getPassword().isEmpty();
+
+			if(bindingResult.hasErrors() && (!bindingResult.hasFieldErrors("password") || !flag) ) {
 				model.addAttribute("flag", "error");
 				model.addAttribute("tech", tech);
-				return "/technicien/FormTechnicien" ;
+				return "/technicien/EditTechnicien" ;
 			}
 			
 			
@@ -100,7 +101,7 @@ public class TechnicienController {
 			
 
 			
-			if(tech.getPassword()!=null && !tech.getPassword().isEmpty() ) {
+			if(tech.getPassword()!=null && !tech.getPassword().isEmpty()) {
 				tech.setPassword(bcpe.encode(tech.getPassword()));
 			}else {
 				tech.setPassword(cl.getPassword());

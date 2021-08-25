@@ -12,15 +12,15 @@ import org.springframework.data.repository.query.Param;
 
 public interface TechnicienRepository  extends JpaRepository<technicien, Long> {
 	@Query("select t from technicien t where (t.nom like:x)")
-	public Page<technicien> findByDesignationContains(@Param("x")String mc, Pageable pageable);
+    Page<technicien> findByDesignationContains(@Param("x") String mc, Pageable pageable);
 	
 	@Query("select t from technicien t where (t.username like:x)")
-	public technicien ChercherTechnicienusername(@Param("x")String username);
+    technicien ChercherTechnicienusername(@Param("x") String username);
 	
 	@Query("select CONCAT(t.nom, ' ',t.prenom) as name , count(t.id) as y from technicien t, Intervention i where i.technicien.id=t.id GROUP BY  t.id ")
-	public List<Object> techstat();
+    List<Object> techstat();
 	
 	@Query("select t from technicien t where (t.cin like:x OR t.mobile like:y OR t.username like:z)")
-	public List<technicien> test(@Param("x")String cin,@Param("y")String mobile,@Param("z")String username);
+    List<technicien> test(@Param("x") String cin, @Param("y") String mobile, @Param("z") String username);
 	
 }

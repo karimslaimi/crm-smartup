@@ -32,11 +32,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 				<table class="table">
 					<tr>
 						<th >IDR</th>
-						<th >Fixe</th>
-						<th >adresse</th>
-						<th >code Postal</th>
-						<th >type reclamaion</th>
-						<th >explication</th>
+
+						<th >Date reclam</th>
+						<th >titre reclamaion</th>
+						<th>Etat</th>
+						<th>Action</th>
+
 				
 					</tr>
 					
@@ -44,17 +45,15 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 				
 					<tr  th:unless="${#lists.isEmpty(listReclamation)}" th:each="r:${listReclamation}">
 						<td th:text="${r.idR}"></td>
-						<td th:text="${r.Fixe}"></td>
-						<td th:text="${r.addresse}"></td>
-						<td th:text="${r.codeP}"></td>
-						<td th:text="${r.typeR}"></td>
-						<td th:text="${r.explication}"></td>
-						
-						<td> 
+						<td th:text="${r.date}"></td>
+						<td th:text="${r.titre}"></td>
+						<td th:text="${r.intervention != null}? *{r.intervention.status}:'En cours'"></td>
+
+						<td>
 						<a  class="btn btn-danger" onclick="return confirm('etes vous sur ?')" th:href="@{/client/deleter(id=${r.idR},page=${currentPage},motCle=${motCle})}"> Delete</a>
 						</td>
 						<td> 
-						<a  class="btn btn-info" th:href="@{/client/editr(id=${r.idR})}"> Edit</a>		
+						<a  class="btn btn-info" th:href="@{/client/editr(id=${r.idR})}"> Modifier</a>
 						</td>
 						
 					</tr>

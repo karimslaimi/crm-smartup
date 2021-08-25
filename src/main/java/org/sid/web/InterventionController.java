@@ -1,5 +1,6 @@
 package org.sid.web;
 
+import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -28,10 +29,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 @Controller
 public class InterventionController {
 	@Autowired
@@ -92,7 +91,7 @@ public class InterventionController {
 	@PostMapping("/admin/savei")
 	public String save1 (Model model , @Valid Intervention intervention ,Long id, BindingResult bindingResult) {
 		
-		Reclamation rec=RRepository.findById((long)id).get();
+		Reclamation rec=RRepository.findById(id).get();
 
 		intervention.setReclamation(rec);
 		if(bindingResult.hasErrors()|| intervention==null) {
@@ -100,7 +99,8 @@ public class InterventionController {
 			
 			return"/Intervention/FormIntervention" ;
 		}
-			
+
+		intervention.setDateInt(new Date());
 		
 		IRepository.save(intervention) ;
 		
@@ -114,7 +114,7 @@ public class InterventionController {
 	
 	@GetMapping("/admin/editi")
 	public String form1 (Model model , long idInt) {
-		Intervention intervention=IRepository.findById((long)idInt).get();
+		Intervention intervention=IRepository.findById(idInt).get();
 		model.addAttribute("techs",TRepository.findAll()) ; 
 		model.addAttribute("intervention",intervention) ; 
 
@@ -183,7 +183,15 @@ Intervention intervention=IRepository.findById(id).get();
 		return "/Intervention/Intervention" ;
 	}
 
-	
+	@GetMapping("/technicien/regle/{idI}")
+	public String reglerIntervention(@PathVariable Long idI){
+		Intervention intervention=IRepository.findById(idI).get();
+		intervention.setStatus("Traité");
+		IRepository.save(intervention);
+		return "redirect:/technicien/interventionT";
+
+	}
+
 	public void sendmail(Intervention intervention , Reclamation rec) {
 
 		Properties props = new Properties();

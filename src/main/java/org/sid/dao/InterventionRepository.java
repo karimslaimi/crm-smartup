@@ -15,15 +15,15 @@ import org.springframework.data.repository.query.Param;
 
 public interface InterventionRepository extends JpaRepository<Intervention, Long> {
 	@Query("select i from Intervention i where (i.status like:x) OR (i.detaille like:x)")
-	public Page<Intervention> findByDesignationContains(@Param("x")String mc, Pageable pageable);
+    Page<Intervention> findByDesignationContains(@Param("x") String mc, Pageable pageable);
 
 	@Query("select i from Intervention i where (i.technicien.id =:x)")
-	public Page<Intervention> findByIDtechnicienContains(@Param("x")Long idT, Pageable pageable);
+    Page<Intervention> findByIDtechnicienContains(@Param("x") Long idT, Pageable pageable);
 	
 	
 	
 	@Query("select i    from Intervention i where (i.dateInt>=:x)")
-	public List<Intervention> findlocations(@Param("x")Date date);
+    List<Intervention> findlocations(@Param("x") Date date);
 	
 	
 	
@@ -34,7 +34,7 @@ public interface InterventionRepository extends JpaRepository<Intervention, Long
 			"FROM      Intervention i \n" + 
 			
 			"GROUP BY  MONTH(i.dateInt)")
-	public List<Object> interstat();
+    List<Object> interstat();
 	
 	
 	

@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 public interface AdminRepository extends JpaRepository<Admin,Long> {
 	
 	@Query("select c from Admin c where (c.username like:x)")
-	public Admin ChercherAdminusername(@Param("x")String username);
+    Admin ChercherAdminusername(@Param("x") String username);
 
 }

@@ -8,7 +8,7 @@
 
 </head>
 <body>
-	<div layout:fragment="content1" class="row">
+	<div layout:fragment="content" class="row">
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
@@ -31,7 +31,7 @@
 
 								<th>Technicien</th>
 								<th>dateInt</th>
-								<th>localistaion</th>
+								<th>Statut</th>
 								<th>Reclamation N°</th>
 								<th>Action</th>
 
@@ -43,7 +43,7 @@
 
 
 									<td th:text="${i.dateInt}"></td>
-									<td th:text="${i.localisation}"></td>
+									<td th:text="${i.status}"></td>
 									<td th:text="${i.reclamation.idR}"></td>
 
 

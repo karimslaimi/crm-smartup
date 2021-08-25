@@ -33,7 +33,6 @@ public class Reclamation implements Serializable {
 	@Size (min=5, max=70,message="taille incorrect doit etre supérieur à 5")
 	private String titre;
 
-	@NotNull(message="Ne doit pas etre null")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date date;
@@ -47,10 +46,20 @@ public class Reclamation implements Serializable {
 	@JsonIgnore
 	private Client client;
 
-	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "intervention_id", referencedColumnName = "idInt")
+	private Intervention intervention;
 
 
-	public Reclamation(Long idR, String titre, String explication, Client client,Date date) {
+	public Intervention getIntervention() {
+		return intervention;
+	}
+
+	public void setIntervention(Intervention intervention) {
+		this.intervention = intervention;
+	}
+
+	public Reclamation(Long idR, String titre, String explication, Client client, Date date) {
 		super();
 		this.idR=idR;
 		this.titre = titre;

@@ -22,7 +22,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
     @Autowired
     private DataSource dataSource ;
     
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
     
     @Autowired
     public SecurityConfig(AuthenticationSuccessHandler authenticationSuccessHandler) {

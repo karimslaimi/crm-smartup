@@ -30,28 +30,32 @@
 
 
 
+								<th>Technicien</th>
 								<th>dateInt</th>
-								<th>localistaion</th>
-								<th>Detailles</th>
+								<th>Statut</th>
+								<th>Reclamation N°</th>
+								<th>Action</th>
 
 
 							</thead>
 							<tbody>
 								<tr th:unless="${#lists.isEmpty(listIntervention)}"
 									th:each="i:${listIntervention}">
+
 									<td th:text="${i.idInt}"></td>
+									<td th:text="${i.technicien.nom}+' '+${i.technicien.prenom}"></td>
 
 									<td th:text="${i.dateInt}"></td>
-									<td th:text="${i.localisation}"></td>
-									<td th:text="${i.detaille}"></td>
+									<td th:text="${i.status}"></td>
 
 
+									<td th:text="${i.reclamation.idR}"></td>
 
 
 									<td><a class="btn btn-danger"
 										onclick="return confirm('etes vous sur ?')"
-										th:href="@{/technicien/deletei(id=${i.idInt},page=${currentPage},motCle=${motCle})}">
-											Delete</a></td>
+										th:href="@{'/technicien/regle/'+ ${i.idInt}}">
+											Regler</a></td>
 
 
 								</tr>

@@ -12,12 +12,12 @@
     <div class="col-md-10">
         <div class="card">
 
-                <div class="card-heading"> Modifier client</div>
+                <div class="card-heading"> Modifier client  <label th:text="${client.username}"></label></div>
                 <div class="card-body">
                     <form th:action="@{/admin/save}" method="post">
                         <div class="form-group">
-                            <label class="control-label">Id:</label> <label th:text="${client.id}"></label>
-                            <input class="form-control" type="hidden" name="id" th:value="${client.id}">
+                            <label class="control-label">Id:</label>
+                            <input class="form-control" hidden="hidden" name="id" th:value="${client.id}">
                         </div>
 
                         <div class="form-group">
