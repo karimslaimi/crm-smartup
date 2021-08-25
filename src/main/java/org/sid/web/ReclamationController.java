@@ -3,7 +3,6 @@ package org.sid.web;
 import javax.validation.Valid;
 
 import org.sid.dao.ClientRepository;
-import org.sid.dao.ProduitRepository;
 import org.sid.dao.ReclamationRepository;
 import org.sid.dao.TechnicienRepository;
 import org.sid.entities.Client;
@@ -20,7 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
 @Controller
 public class ReclamationController {
 	@Autowired
@@ -29,8 +28,7 @@ public class ReclamationController {
 	private ClientRepository CRepo ;
 	@Autowired
 	private TechnicienRepository TRepository;
-	@Autowired
-	private ProduitRepository PRepository;
+
 	
 	
 	
@@ -93,7 +91,11 @@ public class ReclamationController {
 	
 	@PostMapping("/client/saver")
 	public String save1 (Model model , @Valid Reclamation reclamation , BindingResult bindingResult) {
-		if(bindingResult.hasErrors()) return"FormReclamation" ;
+		if(bindingResult.hasErrors()) {
+
+			model.addAttribute("reclamation",reclamation);
+			return"/Reclamation/FormReclamation" ;
+		}
 		
 		    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		   
@@ -125,7 +127,7 @@ Reclamation reclamation=RRepository.findById(id).get();
 		
 		model.addAttribute("reclamation",new Reclamation()) ; 
 		
-		model.addAttribute("prods",PRepository.findAll()) ; 
+
 		
 		return "/Reclamation/FormReclamation" ; 
 	}
@@ -142,22 +144,20 @@ Reclamation reclamation=RRepository.findById(id).get();
 	
 	@PostMapping("/client/savereclam")
 	public String editreclam(Model model,@Valid Reclamation reclamation ,BindingResult bindingResult,Long idc) {
-		if(bindingResult.hasErrors())return "redirect:/client/editr";
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("reclamation",reclamation);
+			return "/Reclamation/EditReclamation";
+		}
 		Reclamation rec=RRepository.findById(reclamation.getIdR()).get();
 		
-		if(reclamation.getAddresse()==null || reclamation.getAddresse().isEmpty()) 
-			reclamation.setAddresse(rec.getAddresse());
-		if(reclamation.getFixe()==null || reclamation.getFixe().isEmpty()) 
-			reclamation.setFixe(rec.getFixe());
+
 		if(reclamation.getExplication()==null || reclamation.getExplication().isEmpty()) 
 			reclamation.setExplication(rec.getExplication());
-		if(reclamation.getTypeR()==null || reclamation.getTypeR().isEmpty()) 
-			reclamation.setTypeR(rec.getTypeR());
-		if(reclamation.getCodeP()==0  ) 
-			reclamation.setCodeP(rec.getCodeP());
+
 		if(reclamation.getClient()==null)
-			reclamation.setClient(CRepo.findById(idc).get());
+			reclamation.setClient(rec.getClient());
 		
+
 			
 			
 		RRepository.save(reclamation);
@@ -170,7 +170,7 @@ Reclamation reclamation=RRepository.findById(id).get();
 		Intervention inter=new Intervention();
 						
 		Reclamation rec=RRepository.findById((long)id).get();
-		inter.setLocalisation(rec.getAddresse()+" "+rec.getCodeP());
+
 	
 		inter.setReclamation(rec);
 		model.addAttribute("techs",TRepository.findAll()) ; 

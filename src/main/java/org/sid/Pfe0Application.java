@@ -16,48 +16,48 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @SpringBootApplication
-public class Pfe0Application implements CommandLineRunner {
-@Autowired
+public class Pfe0Application  {
+	@Autowired
 
-private ClientRepository  cr ;
-@Autowired
-private ReclamationRepository RRepository ;
-@Autowired
-private AdminRepository ur ;
-@Autowired
-private  TechnicienRepository tr ;
+	private ClientRepository  cr ;
+	@Autowired
+	private ReclamationRepository RRepository ;
+	@Autowired
+	private AdminRepository ur ;
+	@Autowired
+	private  TechnicienRepository tr ;
 
 
 	public static void main(String[] args) {
 		SpringApplication.run(Pfe0Application.class, args);
 	}
 
-	
-	@Override
-	public void run(String... args) throws Exception {
-		PasswordEncoder bcpe=passwordenc() ;
- 
-	//ur.save(new Admin("admin",bcpe.encode("12345"),true,"mohamed","stamboli","ADMIN")) ;
-	
-		/*tr.save(new technicien("daoud", "ka7la", 111115, 
-				new Date(), "chicha", "ahram",
-			1478523, "daoud69.ahram@gmail.com",
-			"daoudachicha95", bcpe.encode("chicha")));*/
-		
-	/*cr.save(new Client("homme","ghassen","salhi",
-			123456,new Date(),"aaaaa",1452,"mohamed.stambouli@esen.tn",
-			bcpe.encode("12345"),"mohamed")) ;*/
-		
-	}
+	/*@Bean
+	public CommandLineRunner init() {
+		return (args -> {
+			Admin admin=new Admin();
+			PasswordEncoder bcpe=new BCryptPasswordEncoder();
+			admin.setNom("admin");
+			admin.setActive(true);
+			admin.setPrenom("admin");
+			admin.setUsername("admin");
+			admin.setRole("ADMIN");
+			String pass=bcpe.encode("admin123");
+			admin.setPassword(pass);
+			ur.save(admin);
+		});
+	}*/
+
 	@Bean
 	public PasswordEncoder passwordenc() {
-	    return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder();
 	}
-	
+
 
 }

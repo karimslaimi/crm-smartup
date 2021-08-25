@@ -14,28 +14,36 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-@SpringBootApplication
+
 @Entity
 public class Intervention  implements Serializable{
 	@Id  @GeneratedValue(strategy=GenerationType.IDENTITY) 
 
 	private  Long idInt ;
+
+	@NotNull(message="Ne doit pas etre null")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateInt ;
-	private String localisation ; 
+
+	@NotBlank(message="Ne doit pas etre vide")
+	private String status ;
+
+	@NotBlank(message="Ne doit pas etre vide")
 	private String detaille;
 	
 	@ManyToOne
 	@JoinColumn(name="tech_id")
 	private technicien technicien  ;
 	
-	@JsonIgnore
+
 	@OneToOne(fetch = FetchType.EAGER)
 	 @JoinColumn(name = "reclamation_id", referencedColumnName = "idR")
 	private Reclamation reclamation;
@@ -48,11 +56,11 @@ public class Intervention  implements Serializable{
 	public void setReclamation(Reclamation reclamation) {
 		this.reclamation = reclamation;
 	}
-	public Intervention(Long idInt, Date dateInt, String localisation, technicien technicien,String detaille) {
+	public Intervention(Long idInt, Date dateInt, String status, technicien technicien,String detaille) {
 		super();
 		this.idInt = idInt;
 		this.dateInt = dateInt;
-		this.localisation = localisation;
+		this.status = status;
 		this.technicien = technicien;
 		this.detaille=detaille;
 	}
@@ -82,12 +90,15 @@ public class Intervention  implements Serializable{
 	public void setDateInt(Date dateInt) {
 		this.dateInt = dateInt;
 	}
-	public String getLocalisation() {
-		return localisation;
+
+	public String getStatus() {
+		return status;
 	}
-	public void setLocalisation(String localisation) {
-		this.localisation = localisation;
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
+
 	public technicien getTechnicien() {
 		return technicien;
 	}
@@ -96,7 +107,7 @@ public class Intervention  implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "Intervention [idInt=" + this.idInt + ", dateInt=" + this.dateInt + ", localisation=" + this.localisation + "]";
+		return "Intervention [idInt=" + this.idInt + ", dateInt=" + this.dateInt + ", status=" + this.status + "]";
 	}
 	
 	

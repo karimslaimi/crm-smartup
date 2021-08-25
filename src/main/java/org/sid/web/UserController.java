@@ -1,9 +1,8 @@
 package org.sid.web;
 
 import java.net.URL;
-import java.util.Random;
+import java.util.*;
 import java.net.*;
-import java.util.Base64;
 import java.io.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,6 +10,8 @@ import javax.validation.Valid;
 
 import org.sid.dao.AdminRepository;
 import org.sid.dao.ClientRepository;
+import org.sid.dao.InterventionRepository;
+import org.sid.dao.TechnicienRepository;
 import org.sid.entities.Admin;
 import org.sid.entities.Client;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +29,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
-import com.twilio.Twilio;
+
 
 @Controller
 public class UserController {
 	@Autowired
 	private ClientRepository CRepository ;
-	
-	
+
 	 public static final String ACCOUNT_SID =
 	            "AC5a9fa09cc49450f2f7cecef4eeb01007";
 	    public static final String AUTH_TOKEN =
@@ -45,8 +43,8 @@ public class UserController {
 
 	    public String sendsms(String content,String number) throws IOException {
 	    	String myURI = "https://api.bulksms.com/v1/messages";
-	    	 String myUsername = "ghassen";
-	    	    String myPassword = "Ghassen2020";
+	    	 String myUsername = "ghassen1";
+	    	    String myPassword = "Ghassen123";
 	    	    // the details of the message we want to send
 	    	    String myData = "{to: \"+216"+number+"\", encoding: \"UNICODE\", body: \""+content+"\"}";
 	    	
@@ -96,9 +94,8 @@ public class UserController {
 
 	      return"";
 	    }
-	    
-	    
-	
+
+
 	@GetMapping("/403")
 	public String notAutorized() {
 
@@ -120,6 +117,9 @@ public class UserController {
 	public String logout() {
 		return "redirect:/login";
 	}
+	
+	
+	
 	
 	
 	@RequestMapping(value="/forgotpass")
@@ -148,11 +148,12 @@ public class UserController {
 	            salt.append(code.charAt(index));
 	        }
 	        String codesms = salt.toString();
+	        System.out.println(codesms);
 		
 		
 		session.setAttribute("code", codesms); 
 		model.addAttribute("userid", c.getId());
-		//sendsms(codesms,String.valueOf(c.getMobile()));
+		sendsms(codesms,String.valueOf(c.getMobile()));
 		
 		
 		return "/User/verifycode";
@@ -235,8 +236,9 @@ public class UserController {
 		redirectAttrs.addAttribute("flag", "done");
 		
 		if(bindingResult.hasErrors()) {
-			redirectAttrs.addAttribute("flag", "error");
-			return"redirect:/Admin/EditProfile" ;
+			model.addAttribute("admin",admin);
+			model.addAttribute("flag", "error");
+			return"/User/Editprofilead" ;
 		}
 		
 		
@@ -257,7 +259,7 @@ public class UserController {
 		if(admin.getPassword()!=null && !admin.getPassword().isEmpty() ) {
 			admin.setPassword(bcpe.encode(admin.getPassword()));
 		}else {
-			admin.setPassword(CRepository.ChercherClientusername(admin.getUsername()).getPassword());
+			admin.setPassword(ad.getPassword());
 		}
 		adminrep.save(admin);
 		

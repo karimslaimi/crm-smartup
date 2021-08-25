@@ -8,7 +8,7 @@ layout:decorate="layout"sin >
 </head>
 <body>
 
-	<div layout:fragment="content1" class="row">
+	<div layout:fragment="content" class="row">
 		<div class="col-md-10">
 			<div class="card">
 			
@@ -53,16 +53,16 @@ layout:decorate="layout"sin >
 									th:errors="${technicien.cin}" class="text-danger"></span>
 							</div>
 							
-							
-							<div class="form-group">
-								<label class="control-label">date de naissance</label>
-								 <input class="form-control" type="date" name="daten"	th:value="${technicien.dateN}"/> 
-									<span th:errors="${technicien.dateN}" class="text-danger"></span>
-							</div>
+
 							<div class="form-group">
 								<label class="control-label">specialite</label>
-								 <input class="form-control" type="text" name="adresse"th:value="${technicien.spec}"/> <span
-									th:errors="${technicien.spec}" class="text-danger"></span>
+
+								<select name="specialite" class="form-control" th:field="${technicien.spec}">
+									<option th:each="spec : ${T(org.sid.entities.TypeTech).values()}"
+											th:value="${spec}" th:text="${spec}"></option>
+								</select>
+
+								<span th:errors="${technicien.spec}" class="text-danger"></span>
 							</div>
 							
 							<div class="form-group">
@@ -80,7 +80,7 @@ layout:decorate="layout"sin >
 								<input class="form-control" type="text" name="mail" th:value="${technicien.mail}"/> <span
 									th:errors="${technicien.mail}" class="text-danger"></span>
 							</div>
-							<button type="submit" class="btn btn-primary">save</button>
+							<button type="submit" class="btn btn-primary">Enregistrer</button>
 						</form>
 					
 					

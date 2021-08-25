@@ -20,4 +20,7 @@ public interface TechnicienRepository  extends JpaRepository<technicien, Long> {
 	@Query("select CONCAT(t.nom, ' ',t.prenom) as name , count(t.id) as y from technicien t, Intervention i where i.technicien.id=t.id GROUP BY  t.id ")
 	public List<Object> techstat();
 	
+	@Query("select t from technicien t where (t.cin like:x OR t.mobile like:y OR t.username like:z)")
+	public List<technicien> test(@Param("x")String cin,@Param("y")String mobile,@Param("z")String username);
+	
 }

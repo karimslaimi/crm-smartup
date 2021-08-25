@@ -9,9 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-@SpringBootApplication
+
 @Entity
-@Table(name="Admin")
+
 @DiscriminatorValue("A")
 public class Admin extends users implements Serializable {
 

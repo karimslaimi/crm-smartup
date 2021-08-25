@@ -91,10 +91,16 @@ public class InterventionController {
 	
 	@PostMapping("/admin/savei")
 	public String save1 (Model model , @Valid Intervention intervention ,Long id, BindingResult bindingResult) {
+		
 		Reclamation rec=RRepository.findById((long)id).get();
-		intervention.setLocalisation(rec.getAddresse()+" "+rec.getCodeP());
+
 		intervention.setReclamation(rec);
-		if(bindingResult.hasErrors()|| intervention==null) return"/Intervention/FormIntervention" ;
+		if(bindingResult.hasErrors()|| intervention==null) {
+			model.addAttribute("intervention",intervention);
+			
+			return"/Intervention/FormIntervention" ;
+		}
+			
 		
 		IRepository.save(intervention) ;
 		
@@ -125,6 +131,12 @@ public class InterventionController {
 		}
 		Reclamation rec=RRepository.findById(reclamation).get();
 		intervention.setReclamation(rec);
+		Intervention inter=IRepository.findById(intervention.getIdInt()).get();
+		
+
+		
+		
+		
 		IRepository.save(intervention) ;
 
 		sendmail(intervention,intervention.getReclamation());
@@ -192,7 +204,7 @@ Intervention intervention=IRepository.findById(id).get();
 	           
 	            message.setRecipient(Message.RecipientType.TO,new InternetAddress(rec.getClient().getMail()));
 	            message.setSubject("Réclamation traité");
-	            message.setText("Votre réclamation à propos "+rec.getTypeR()+"  une intervention est planifié poru le "+
+	            message.setText("Votre réclamation à propos "+rec.getTitre()+"  une intervention est planifié poru le "+
 	    	            intervention.getDateInt()+" \n le technicien "+intervention.getTechnicien().getNom() +" "+
 	    	            intervention.getTechnicien().getPrenom()+" qui va fixer votre probléme.\nCordialement.");
 

@@ -1,5 +1,7 @@
 package org.sid.dao;
 
+import java.util.List;
+
 import org.sid.entities.Client;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,5 +21,7 @@ public interface ClientRepository extends JpaRepository<Client,Long> {
 	@Query("select c from Client c where (c.mail like:x)")
 	public Client findbymail(@Param("x")String mail);
 	
+	@Query("select c from Client c where (c.cin like:x OR c.mobile like:y OR c.username like:z)")
+	public List<Client> test(@Param("x")String cin,@Param("y")String mobile,@Param("z")String username);
 	
 }

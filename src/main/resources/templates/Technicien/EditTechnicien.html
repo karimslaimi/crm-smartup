@@ -1,82 +1,89 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeLeaf.org"
-	xmlns:layout="http://www.ultraq.nz/thymeleaf/layout"
-	layout:decorate="layout" sin>
+<html layout:decorate="layout"
+      sin
+      xmlns:layout="http://www.ultraq.nz/thymeleaf/layout" xmlns:th="http://www.thymeLeaf.org">
 <head>
-<meta charset="utf-8">
-<title>Saisie d'un client</title>
+    <meta charset="utf-8">
+    <title>Modifier technicien</title>
 </head>
 <body>
 
-	<div layout:fragment="content1">
-		<div class="col-md-6">
-			<div class="panel panel-default">
-				<div class="container">
-					<div class="panel-heading">Nouveau technicien</div>
-					<div class="panel-body">
-						<form th:action="@{/admin/save}" method="post">
+<div layout:fragment="content" class="row">
+    <div class="col-md-10">
+        <div class="card">
+                <div class="card-header">Modifier technicien</div>
+                <div class="card-body">
+                    <form method="post" th:action="@{/admin/saveedit}">
 
-<div class="form-group">
-<label class="control-label">Id:</label> <label th:text="${technicien.id}"></label>
-<input class="form-control" type="hidden" name="id" th:value="${technicien.id}">
+                        <div class="form-group">
+                            <input class="form-control" name="id" th:value="${technicien.id}" type="hidden">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Nom d'utilisateur</label> <input
+                                class="form-control" name="username" th:value="${technicien.username}"
+                                type="text"> <span
+                                class="text-danger" th:errors="${technicien.username}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Mot de passe</label> <input
+                                class="form-control" name="password" th:value="${technicien.password}"
+                                type="text"> <span
+                                class="text-danger" th:errors="${technicien.password}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">nom</label>
+                            <input
+                                class="form-control" name="nom" th:value="${technicien.nom}"
+                                type="text"> <span
+                                class="text-danger" th:errors="${technicien.nom}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">prenom</label> <input
+                                class="form-control" name="prenom" th:value="${technicien.prenom}"
+                                type="text"> <span
+                                class="text-danger" th:errors="${technicien.prenom}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">cin</label> <input
+                                class="form-control" name="cin" th:value="${technicien.cin}"
+                                type="text"> <span
+                                class="text-danger" th:errors="${technicien.cin}"></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label">specialite</label>
+                            <select class="form-control" name="specialite" th:field="${technicien.spec}">
+                                <option th:each="spec : ${T(org.sid.entities.TypeTech).values()}"
+                                        th:text="${spec}" th:value="${spec}"></option>
+                            </select> <span
+                                class="text-danger" th:errors="${technicien.spec}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">adresse</label> <input
+                                class="form-control" name="adresse" th:value="${technicien.adresse}"
+                                type="text"> <span
+                                class="text-danger" th:errors="${technicien.adresse}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">mobile</label> <input
+                                class="form-control" name="mobile" th:value="${technicien.mobile}"
+                                type="text"> <span
+                                th:errors="${technicien.mobile}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">mail</label> <input
+                                class="form-control" name="mail" th:value="${technicien.mail}"
+                                type="text"> <span
+                                class="text-danger" th:errors="${technicien.mail}"></span>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Enregistrer</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
 </div>
-
-							<div class="form-group">
-								<label class="control-label">nom</label> <input
-									class="form-control" type="text" name="nom"
-									th:value="${technicien.nom}"> <span
-									th:errors="${technicien.nom}" class="text-danger"></span>
-							</div>
-							<div class="form-group">
-								<label class="control-label">prenom</label> <input
-									class="form-control" type="text" name="prenom"
-									th:value="${technicien.prenom}"> <span
-									th:errors="${technicien.prenom}" class="text-danger"></span>
-							</div>
-							<div class="form-group">
-								<label class="control-label">cin</label> <input
-									class="form-control" type="text" name="cin"
-									th:value="${technicien.cin}"> <span
-									th:errors="${technicien.cin}" class="text-danger"></span>
-							</div>
-							<div class="form-group">
-								<label class="control-label">date de naissance</label> <input
-									class="form-control" type="date" name="daten"
-									th:value="${technicien.dateN}"> <span
-									th:errors="${technicien.dateN}" class="text-danger"></span>
-							</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label">specialite</label> <input
-									class="form-control" type="text" name="spec"
-									th:value="${technicien.spec}"> <span
-									th:errors="${technicien.spec}" class="text-danger"></span>
-							</div>
-							<div class="form-group">
-								<label class="control-label">adresse</label> <input
-									class="form-control" type="text" name="adresse"
-									th:value="${technicien.adresse}"> <span
-									th:errors="${technicien.adresse}" class="text-danger"></span>
-							</div>
-							<div class="form-group">
-								<label class="control-label">mobile</label> <input
-									class="form-control" type="text" name="mobile"
-									th:value="${technicien.mobile}"> <span
-									th:errors="${technicien.mobile}"></span>
-							</div>
-							<div class="form-group">
-								<label class="control-label">mail</label> <input
-									class="form-control" type="text" name="mail"
-									th:value="${technicien.mail}"> <span
-									th:errors="${technicien.mail}" class="text-danger"></span>
-							</div>
-							<button type="submit" class="btn btn-primary">save</button>
-						</form>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
 </body>
 </html>

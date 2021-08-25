@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -58,7 +59,11 @@ public class ClientController {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			//client.setDateN(sdf..format(client.getDateN()));
 			System.out.println(client.getDateN());
-			if(bindingResult.hasErrors()) return"/Client/FormClient" ;
+			if(bindingResult.hasErrors() ||!CRepository.test(client.getCin(), client.getMobile(),client.getUsername()).isEmpty() ) {
+				model.addAttribute("client", client);
+				model.addAttribute("error","erreur est survenu réessayez");
+				return"/Client/FormClient" ;
+			}
 			
 			client.setActive(true);
 			client.setPassword(new BCryptPasswordEncoder().encode(client.getPassword()));
@@ -68,9 +73,67 @@ public class ClientController {
 			return "redirect:/admin/clients" ; 
 		}
 		
-		@GetMapping("/admin/edit")
+		
+		
+		
+		
+		
+		
+		
+		@RequestMapping(value="/admin/editclient",method = RequestMethod.POST)
+		public String saveedit (Model model , @Valid @ModelAttribute("client")  Client client , BindingResult bindingResult) {
+			
+			if(bindingResult.hasErrors() ||!CRepository.test(client.getCin(), client.getMobile(),client.getUsername()).isEmpty()) {
+				model.addAttribute("client", client);
+				model.addAttribute("error","erreur est survenu réessayez");
+				return"/Client/FormClient" ;
+			}
+			PasswordEncoder bcpe=new BCryptPasswordEncoder() ;
+			
+			client.setActive(true);
+			client.setRole("CLIENT");
+			Client cl=CRepository.findById(client.getId()).get();
+			
+			if(client.getDateN()==null)
+			client.setDateN(cl.getDateN());
+			
+			if(client.getAdresse()==null)
+				client.setAdresse(cl.getAdresse());
+			if(client.getCin()==null)
+				client.setCin(cl.getCin());
+			if(client.getMail()==null)
+				client.setMail(cl.getMail());
+			if(client.getMobile()!=null && !client.getMobile().isEmpty())
+				client.setMobile(cl.getMobile());
+			if(client.getNom()==null)
+				client.setNom(cl.getNom());
+			if(client.getPrenom()==null)
+				client.setPrenom(cl.getPrenom());
+			
+
+			
+			if(client.getPassword()!=null && !client.getPassword().isEmpty() ) {
+				client.setPassword(bcpe.encode(client.getPassword()));
+			}else {
+				client.setPassword(cl.getPassword());
+			}
+			client.setRec(cl.getRec());
+			CRepository.save(client);
+			
+			return "redirect:/admin/clients" ; 
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		@GetMapping("/admin/editC")
 		public String form (Model model , Long id) {
-	Client client=CRepository.findById(id).get();
+	Client client=CRepository.findById(id).get();client.setPassword("");
 			model.addAttribute("client",client) ; 
 
 			return "/Client/EditClient" ; 
@@ -79,6 +142,7 @@ public class ClientController {
 		@GetMapping("/admin/infop")
 		public String formP (Model model , Long id) {
 	Client client=CRepository.findById(id).get();
+	
 			model.addAttribute("client",client) ; 
 
 			return "/Client/infoP" ; 
@@ -134,7 +198,7 @@ public class ClientController {
 		
 			redirectAttrs.addAttribute("flag", "done");
 			
-			if(bindingResult.hasErrors()) {
+			if(bindingResult.hasErrors() ||!CRepository.test(client.getCin(), client.getMobile(),client.getUsername()).isEmpty()) {
 				redirectAttrs.addAttribute("flag", "error");
 				return"redirect:/Client/EditProfile" ;
 			}
@@ -155,7 +219,7 @@ public class ClientController {
 				client.setCin(cl.getCin());
 			if(client.getMail()==null)
 				client.setMail(cl.getMail());
-			if(client.getMobile()==0)
+			if(client.getMobile()!=null && !client.getMobile().isEmpty())
 				client.setMobile(cl.getMobile());
 			if(client.getNom()==null)
 				client.setNom(cl.getNom());
@@ -167,8 +231,9 @@ public class ClientController {
 			if(client.getPassword()!=null && !client.getPassword().isEmpty() ) {
 				client.setPassword(bcpe.encode(client.getPassword()));
 			}else {
-				client.setPassword(CRepository.ChercherClientusername(client.getUsername()).getPassword());
+				client.setPassword(cl.getPassword());
 			}
+			client.setRec(cl.getRec());
 			CRepository.save(client);
 			
 			

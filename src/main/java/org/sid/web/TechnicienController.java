@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,15 +52,69 @@ public class TechnicienController {
 		
 		
 		@RequestMapping(value="/admin/SaveT",method = RequestMethod.POST)
-		public String save (Model model , @Valid technicien technicien , BindingResult bindingResult) {
-			if(bindingResult.hasErrors()) return"FormTechnicien" ;
+		public String save (Model model ,@Valid @ModelAttribute("technicien") technicien technicien , BindingResult bindingResult) {
+			if(bindingResult.hasErrors()||!TRepository.test(technicien.getCin(), technicien.getMobile(),technicien.getUsername()).isEmpty()) {
+				model.addAttribute("error","erreur est survenu réessayez");
+
+				model.addAttribute("technicien",technicien) ;
+				return "/technicien/FormTechnicien" ; 
+			}
+			technicien.setActive(true);
+			technicien.setPassword(new BCryptPasswordEncoder().encode(technicien.getPassword()));
+			technicien.setRole("TECHNICIEN");
 			TRepository.save(technicien) ; 
+			return "redirect:/admin/technicien" ; 
+		}
+		
+		@RequestMapping(value="/admin/saveedit",method = RequestMethod.POST)
+		public String saveedit (Model model ,@Valid @ModelAttribute("technicien") technicien tech  , BindingResult bindingResult) {
+			 
+			
+			if(bindingResult.hasErrors()) {
+				model.addAttribute("flag", "error");
+				model.addAttribute("tech", tech);
+				return "/technicien/FormTechnicien" ;
+			}
+			
+			
+			PasswordEncoder bcpe=new BCryptPasswordEncoder() ;
+				
+			tech.setActive(true);
+			tech.setRole("TECHNICIEN");
+			technicien cl=TRepository.findById(tech.getId()).get();
+			
+
+			
+			if(tech.getAdresse()==null)
+				tech.setAdresse(cl.getAdresse());
+			if(tech.getCin()==null)
+				tech.setCin(cl.getCin());
+			if(tech.getMail()==null)
+				tech.setMail(cl.getMail());
+			if(tech.getMobile().isEmpty())
+				tech.setMobile(cl.getMobile());
+			if(tech.getNom()==null)
+				tech.setNom(cl.getNom());
+			if(tech.getPrenom()==null)
+				tech.setPrenom(cl.getPrenom());
+			
+
+			
+			if(tech.getPassword()!=null && !tech.getPassword().isEmpty() ) {
+				tech.setPassword(bcpe.encode(tech.getPassword()));
+			}else {
+				tech.setPassword(cl.getPassword());
+			}
+			tech.setInter(cl.getInter());
+			TRepository.save(tech);
+			
 			return "redirect:/admin/technicien" ; 
 		}
 		
 		@GetMapping("/admin/editT")
 		public String form (Model model , Long id) {
-	technicien technicien=TRepository.findById(id).get();
+			technicien technicien=TRepository.findById(id).get();
+			technicien.setPassword("");
 			model.addAttribute("technicien",technicien) ; 
 
 			return "/technicien/EditTechnicien" ; 
@@ -115,8 +170,9 @@ public class TechnicienController {
 			redirectAttrs.addAttribute("flag", "done");
 			
 			if(bindingResult.hasErrors()) {
-				redirectAttrs.addAttribute("flag", "error");
-				return"redirect:/Technicien/EditProfile" ;
+				model.addAttribute("tech",tech);
+				model.addAttribute("msg","une erreur est survenu réessayez");
+				return"Technicien/EditProfile" ;
 			}
 			
 			
@@ -126,16 +182,15 @@ public class TechnicienController {
 			tech.setRole("TECHNICIEN");
 			technicien cl=TRepository.findById(tech.getId()).get();
 			
-			if(tech.getDateN()==null)
-				tech.setDateN(cl.getDateN());
+
 			
 			if(tech.getAdresse()==null)
 				tech.setAdresse(cl.getAdresse());
-			if(tech.getCin()==null)
+			if(tech.getCin()==null||tech.getCin().isEmpty())
 				tech.setCin(cl.getCin());
 			if(tech.getMail()==null)
 				tech.setMail(cl.getMail());
-			if(tech.getMobile()==0)
+			if(tech.getMobile().isEmpty())
 				tech.setMobile(cl.getMobile());
 			if(tech.getNom()==null)
 				tech.setNom(cl.getNom());
@@ -149,6 +204,9 @@ public class TechnicienController {
 			}else {
 				tech.setPassword(TRepository.ChercherTechnicienusername(tech.getUsername()).getPassword());
 			}
+			
+			tech.setInter(cl.getInter());
+			
 			TRepository.save(tech);
 			
 			
