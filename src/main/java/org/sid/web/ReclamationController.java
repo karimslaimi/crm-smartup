@@ -3,6 +3,7 @@ package org.sid.web;
 import javax.validation.Valid;
 
 import org.sid.dao.ClientRepository;
+import org.sid.dao.InterventionRepository;
 import org.sid.dao.ReclamationRepository;
 import org.sid.dao.TechnicienRepository;
 import org.sid.entities.Client;
@@ -31,6 +32,8 @@ public class ReclamationController {
 	private ClientRepository CRepo ;
 	@Autowired
 	private TechnicienRepository TRepository;
+	@Autowired
+	private InterventionRepository IRepository;
 
 	
 	
@@ -57,7 +60,7 @@ public class ReclamationController {
 	      String username = ((UserDetails)principal).getUsername();
 	 		    
 		Client cl=CRepo.ChercherClientusername(username);
-		Page<Reclamation>pageReclamation=RRepository.findByIDClientContains(cl.getId(),PageRequest.of(page, 5)) ;
+		Page<Reclamation>pageReclamation=RRepository.findByIDClientContains(cl.getId(),"%"+mc+"%",PageRequest.of(page, 5)) ;
 		model.addAttribute("listReclamation",pageReclamation.getContent()) ;
 		model.addAttribute("pages",new int[pageReclamation.getTotalPages()]) ;
 		model.addAttribute("currentPage",page) ; 
@@ -65,10 +68,10 @@ public class ReclamationController {
 		return "/Reclamation/ReclamationC" ;
 	}
 	@GetMapping("/admin/sesreclam")
-	public String reclamations(Model model , @RequestParam(name="page", defaultValue="0") int page,
+	public String reclamations(Model model ,@RequestParam(name="motCle", defaultValue="") String mc, @RequestParam(name="page", defaultValue="0") int page,
 			Long id) {
 		
-		Page<Reclamation>pageReclamation=RRepository.findByIDClientContains(id,PageRequest.of(page, 5)) ;
+		Page<Reclamation>pageReclamation=RRepository.findByIDClientContains(id,"%"+mc+"%",PageRequest.of(page, 5)) ;
 		model.addAttribute("listReclamation",pageReclamation.getContent()) ;
 		model.addAttribute("pages",new int[pageReclamation.getTotalPages()]) ;
 		model.addAttribute("currentPage",page) ; 
@@ -79,14 +82,18 @@ public class ReclamationController {
 
 	@GetMapping("/admin/deleter")
 	public String delete1 (Long id,int page , String motCle) {
+		Reclamation reclam=RRepository.findById(id).get();
 		RRepository.deleteById(id);
+		IRepository.delete(reclam.getIntervention());
 		return"redirect:/admin/reclamation?page="+page+"&motCle"+motCle;
 	}
 	
 	
 	@GetMapping("/client/deleter")
 	public String deleteclient (Long id,int page , String motCle) {
+		Reclamation reclam=RRepository.findById(id).get();
 		RRepository.deleteById(id);
+		IRepository.delete(reclam.getIntervention());
 		return"redirect:/client/reclamationC?page="+page+"&motCle"+motCle;
 	}
 	

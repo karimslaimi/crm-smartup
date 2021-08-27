@@ -15,7 +15,7 @@
             <div class="card-header"><h5 class="title">Liste des Clients</h5></div>
             <div class="row">
                 <div class="col-md-5 pr-1">
-                    <form th:action="@{/user/index}" method="get">
+                    <form th:action="@{/admin/clients}" method="get">
                         <label>Mot clé:</label>
                         <input type="text" name="motCle" th:value="${motCle}">
                         <button type="submit" class="btn btn-primary">chercher</button>

@@ -5,6 +5,34 @@
 <head>
     <meta charset="utf-8">
     <title>Saisie d'une reclamation</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+
+
+
+        $(document).ready(function() {
+
+            $("#cat").change(function() {
+
+
+                var el = $(this);
+                if(el.val() === "Réseau" ) {
+                    $("#prblm").append("   <option value='Problème connexion réseau'>Problème connexion réseau</option>");
+                    $("#prblm").append("   <option value='Problème connexion internet'>Problème connexion internet</option>");
+                    $("#prblm").append("   <option value='Problème mail'>Problème mail</option>");
+                    $("#prblm").append("   <option value='Problème SharePoint'>Problème SharePoint</option>");
+
+                }
+                else if(el.val() === "Matériel" ) {
+                    $("#prblm").append("   <option value='Unité Central'>Unité Central</option>");
+                    $("#prblm").append("   <option value='Imprimante'>Imprimante</option>");
+                    $("#prblm").append("   <option value='Scanner'>Scanner</option>");
+                    $("#prblm").append("   <option value='Ecran'>Ecran</option>");
+                    $("#prblm").append("   <option value='Souris/Clavier'>Souris/Clavier</option>");
+                }
+            });
+        });
+    </script>
 </head>
 <body>
 
@@ -17,7 +45,7 @@
                 <form th:action="@{/client/saver}" th:method="POST">
 
 
-                    <div class="form-group">
+
 
 
 
@@ -34,8 +62,39 @@
                             <span th:errors="${reclamation.explication}"></span>
                         </div>
 
+                    <div class="form-group">
+                        <label class="control-label">Type</label>
+                        <select th:field="${reclamation.type}" class="form-control">
+                            <option value="" selected>Sélectionner un type</option>
+                            <option value="Incident">Incident</option>
+                            <option value="Demande">Demande</option>
+                        </select>
                     </div>
 
+                        <div class="form-group">
+                            <label for="cat" class="control-label">Catégorie</label>
+                            <select th:field="${reclamation.categorie}" class="form-control" id="cat">
+                                    <option selected value="">Séléctionner une catégorie</option>
+                                <option value="Réseau">Réseau</option>
+                                <option value="Matériel">Matériel</option>
+                            </select>
+                        </div>
+                    <div class="form-group">
+                        <label class="control-label">Probléme</label>
+                        <select required th:field="${reclamation.problem}" class="form-control" id="prblm">
+
+                            <option selected value="" >Selectionner le probleme</option>
+                        </select>
+                    </div>
+                        <div class="form-group">
+                            <label class="control-label">Urgence</label>
+                            <select th:field="${reclamation.priorite}" class="form-control">
+                                <option selected value="" >Selectionner la priorité</option>
+                                <option value="Haute">Haute</option>
+                                <option value="Moyenne">Moyenne</option>
+                                <option value="Faible">Faible</option>
+                            </select>
+                        </div>
 
 
 
@@ -47,6 +106,6 @@
 
     </div>
 </div>
-</div>
+
 </body>
 </html>

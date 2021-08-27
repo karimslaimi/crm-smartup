@@ -35,6 +35,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 						<th >Date reclam</th>
 						<th >titre reclamaion</th>
+						<th>Priorité</th>
+						<th>Type</th>
 						<th>Etat</th>
 						<th>Action</th>
 
@@ -47,6 +49,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 						<td th:text="${r.idR}"></td>
 						<td th:text="${r.date}"></td>
 						<td th:text="${r.titre}"></td>
+						<td th:text="${r.priorite}"></td>
+						<td th:text="${r.type}"></td>
 						<td th:text="${r.intervention != null}? *{r.intervention.status}:'En cours'"></td>
 
 						<td>

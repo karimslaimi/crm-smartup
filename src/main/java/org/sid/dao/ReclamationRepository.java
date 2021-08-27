@@ -13,11 +13,16 @@ public interface ReclamationRepository extends JpaRepository<Reclamation, Long> 
 	@Query("select r from Reclamation r where (r.explication like:x)")
     Page<Reclamation> findByDesignationContains(@Param("x") String mc, Pageable pageable);
 	
-	@Query("select r from Reclamation r where (r.client.id =:x)")
-    Page<Reclamation> findByIDClientContains(@Param("x") Long idC, Pageable pageable);
+	@Query("select r from Reclamation r where (r.client.id =:x) and (r.explication like :mc or r.titre like :mc)")
+    Page<Reclamation> findByIDClientContains(@Param("x") Long idC,@Param("mc") String mc, Pageable pageable);
 	
 	@Query("select r.idR, r.explication  from Reclamation r where (r.client.id =:x)")
     List<Object> clientreclam(@Param("x") Long idC);
-	
-	
+
+	//pour reseau
+	@Query("select r.problem as name , count(r.idR) as y from Reclamation r where r.categorie not like 'Matériel' group by r.problem ")
+	List<Object> ReclamStat();
+	//pour materiel
+	@Query("select r.problem as name , count(r.idR) as y from Reclamation r where r.categorie not like 'Réseau' group by r.problem ")
+	List<Object> ReclamStat2();
 }

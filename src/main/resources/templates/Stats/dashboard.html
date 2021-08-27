@@ -24,7 +24,8 @@
                 url: '/api/stat',
                 success: function (result) {
 
-                  var techstat=result["techstat"]
+                  var reclamstat1=result["reclamstat"]
+                  var reclamstat2=result["reclamstat2"]
 
                   var interstat=result["interstat"]
 
@@ -39,7 +40,7 @@
                       type: 'pie'
                     },
                     title: {
-                      text: 'Nombre d\'intervention de chaque technicien'
+                      text: 'Reclamation réseau'
                     },
                     tooltip: {
                       pointFormat: '{series.name}: <b>{point.percentage:.1f}%<br>{point.y:.00f}</b>'
@@ -62,11 +63,48 @@
                     series: [{
                       name: 'Pourcentage',
                       colorByPoint: true,
-                      data: techstat
+                      data: reclamstat1
 
                     }]
                   });
 
+
+
+                  Highcharts.chart('container2', {
+                    chart: {
+                      plotBackgroundColor: null,
+                      plotBorderWidth: null,
+                      plotShadow: false,
+                      type: 'pie'
+                    },
+                    title: {
+                      text: 'Reclamation materiel'
+                    },
+                    tooltip: {
+                      pointFormat: '{series.name}: <b>{point.percentage:.1f}%<br>{point.y:.00f}</b>'
+                    },
+                    accessibility: {
+                      point: {
+                        valueSuffix: '%'
+                      }
+                    },
+                    plotOptions: {
+                      pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.1f}%<br>{point.y:.0f}'
+                        }
+                      }
+                    },
+                    series: [{
+                      name: 'Pourcentage',
+                      colorByPoint: true,
+                      data: reclamstat2
+
+                    }]
+                  });
 
 
 
@@ -144,6 +182,7 @@
 <div layout:fragment="content">
 
   <div id="container"></div>
+  <div id="container2"></div>
 
 
 

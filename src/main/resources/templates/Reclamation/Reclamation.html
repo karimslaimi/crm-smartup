@@ -18,7 +18,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 			<div >
 			
 			
-			<form th:action="@{/client/reclamationC}" method="get">
+			<form th:action="@{/admin/reclamation}" method="get">
 			<label>Mot clé:</label>
 			<input type="text" name="motCle" th:value="${motCle}">
 			<button type="submit" class="btn btn-primary">chercher</button>
@@ -35,6 +35,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 						<th >Date reclam</th>
 						<th >titre reclamaion</th>
+						<th>Priorité</th>
+						<th>Type</th>
 						<th> Status</th>
 
 					</tr>
@@ -45,10 +47,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 						<td th:text="${r.idR}"></td>
 						<td th:text="${r.date}"></td>
 						<td th:text="${r.titre}"></td>
+						<td th:text="${r.priorite}"></td>
+						<td th:text="${r.type}"></td>
 						<td th:text="${r.intervention != null}? *{r.intervention.status}:'En cours'"></td>
 
 						<td>
-						<a  class="btn btn-danger" onclick="return confirm('etes vous sur ?')" th:href="@{/client/deleter(id=${r.idR},page=${currentPage},motCle=${motCle})}"> Delete</a>
+						<a  class="btn btn-danger" onclick="return confirm('etes vous sur ?')" th:href="@{/client/deleter(id=${r.idR},page=${currentPage},motCle=${motCle})}"> Supprimer</a>
 						</td>
 						<td>
 						<a  class="btn btn-info" th:href="@{/admin/details(id=${r.idR})}"> Regler</a>

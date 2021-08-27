@@ -89,7 +89,7 @@ public class InterventionController {
 	
 	
 	@PostMapping("/admin/savei")
-	public String save1 (Model model , @Valid Intervention intervention ,Long id, BindingResult bindingResult) {
+	public String save1 (Model model , @Valid Intervention intervention ,@RequestParam(name = "id") Long id, BindingResult bindingResult) {
 		
 		Reclamation rec=RRepository.findById(id).get();
 
@@ -100,10 +100,12 @@ public class InterventionController {
 			return"/Intervention/FormIntervention" ;
 		}
 
+		intervention.setStatus("En Cours");
 		intervention.setDateInt(new Date());
 		
 		IRepository.save(intervention) ;
-		
+
+
 		
 		sendmail(intervention,rec);
 		
@@ -203,7 +205,7 @@ Intervention intervention=IRepository.findById(id).get();
 		   Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			   @Override
 		      protected PasswordAuthentication getPasswordAuthentication() {
-		         return new PasswordAuthentication("ghassen.salhi@esen.tn", "krjfyjayfugyheax");
+		         return new PasswordAuthentication("mgh.halima20@gmail.com", "iogbspykicyqhlrm");
 		      }
 		   });
 		   try {

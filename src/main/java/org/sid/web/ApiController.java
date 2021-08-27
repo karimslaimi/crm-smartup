@@ -1,6 +1,7 @@
 package org.sid.web;
 
 import org.sid.dao.InterventionRepository;
+import org.sid.dao.ReclamationRepository;
 import org.sid.dao.TechnicienRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +12,13 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class ApiController {
+public class  ApiController {
     @Autowired
     private InterventionRepository IRepository ;
     @Autowired
     private TechnicienRepository TRepository ;
+    @Autowired
+    private ReclamationRepository RRepository ;
 
     @GetMapping("/techstat")
     public List<Object> prod() {
@@ -46,6 +49,8 @@ public class ApiController {
 
 
         mp.put("interstat", IRepository.interstat());
+        mp.put("reclamstat", RRepository.ReclamStat());
+        mp.put("reclamstat2", RRepository.ReclamStat2());
 
 
 

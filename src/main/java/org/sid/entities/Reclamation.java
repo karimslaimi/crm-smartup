@@ -41,6 +41,12 @@ public class Reclamation implements Serializable {
 	@NotBlank(message="Ne doit pas etre vide")
 	private String explication;
 
+
+	private String type;
+	private String categorie;
+	private String priorite;
+	private String problem;
+
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	@JsonIgnore
@@ -50,6 +56,38 @@ public class Reclamation implements Serializable {
 	@JoinColumn(name = "intervention_id", referencedColumnName = "idInt")
 	private Intervention intervention;
 
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getCategorie() {
+		return categorie;
+	}
+
+	public void setCategorie(String categorie) {
+		this.categorie = categorie;
+	}
+
+	public String getProblem() {
+		return problem;
+	}
+
+	public void setProblem(String problem) {
+		this.problem = problem;
+	}
+
+	public String getPriorite() {
+		return priorite;
+	}
+
+	public void setPriorite(String priorite) {
+		this.priorite = priorite;
+	}
 
 	public Intervention getIntervention() {
 		return intervention;
