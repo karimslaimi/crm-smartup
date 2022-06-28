@@ -21,7 +21,9 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
 	private PasswordEncoder passwordEncoder;
     @Autowired
     private DataSource dataSource ;
-    
+
+	public String unused="qsdcv";
+
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
     
     @Autowired
